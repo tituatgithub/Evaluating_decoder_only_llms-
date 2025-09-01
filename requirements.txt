@@ -1,0 +1,4 @@
+transformers
+pandas
+bert-score
+sacrebleu
