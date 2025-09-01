@@ -1,15 +1,19 @@
-import os
 import json
 import pandas as pd
 import sacrebleu
 from bert_score import score
+from pathlib import Path
+
+# Get the root directory
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+print(ROOT_DIR)
 
 # ----------------------------
 # Configurations
 # ----------------------------
-DATA_PATH = "/home/ethicaldevice/Desktop/Titu_exp/mt_comilingua_test.json"
-OUTPUT_PATH = "/home/ethicaldevice/Desktop/Titu_exp/llama_output_en/llama_translations.json"
-RESULTS_PATH = "/home/ethicaldevice/Desktop/Titu_exp/llama_output_en/eval_results_en.json"
+DATA_PATH = ROOT_DIR / "data/mt_comilingua_test.json"
+OUTPUT_PATH = ROOT_DIR / "out/llama_output_en/llama_translations.json"
+RESULTS_PATH = ROOT_DIR / "out/llama_output_en/eval_results_en.json"
 
 # ----------------------------
 # Load dataset and outputs
@@ -66,6 +70,10 @@ results = {
     "BERTScore": bert_score
 }
 
+# Ensure the output directory exists
+RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+# Save the results to a JSON file
 with open(RESULTS_PATH, "w", encoding="utf-8") as f:
     json.dump(results, f, indent=2, ensure_ascii=False)
 
